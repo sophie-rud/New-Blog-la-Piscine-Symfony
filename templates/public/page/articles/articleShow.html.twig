@@ -1,0 +1,26 @@
+{% extends 'public/base.html.twig' %}
+
+
+{% block metatitle %} Article show
+{% endblock %}
+
+{% block main %}
+
+<section>
+
+    <article class="articleShow">
+
+        <h2> {{ article.title }} </h2>
+        <h3> {{ article.description }} </h3>
+        <p> {{ article.content }} </p>
+
+        <div class="imgArticle"> <img src="{{ article.image }}" alt="illustration de : {{ article.title }}"> </div>
+
+        {# Il faut passer un filtre aux dates pour que twig puisse les afficher : | date() #}
+        <p> {{ article.createdAt | date('d-m-Y') }} </p>
+        <p> {{ article.updatedAt | date('d.m.Y') }} </p>
+
+    </article>
+</section>
+
+{% endblock %}

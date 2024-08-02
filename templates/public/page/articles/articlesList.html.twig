@@ -1,0 +1,33 @@
+{% extends 'public/base.html.twig' %}
+
+
+{% block metatitle %} List articles
+{% endblock %}
+
+{% block main %}
+
+<section id="sectionArticlesList">
+
+    {% for article in articles %}
+
+        {# on prend le nom qui figure dans l'entité : isPublished #}
+        {% if article.isPublished %}
+
+            <article class="articlesList">
+
+                <h2> {{ article.title }} </h2>
+                <p> {{ article.description }} </p>
+                <div class="imgArticle"> <img src="{{ article.image }}" alt="illustration de : {{ article.title }}"> </div>
+
+                <a href="{{ path('article_show', {id: article.id}) }}"> Voir l'article </a>
+
+            </article>
+
+        {% endif %}
+
+    {% endfor %}
+
+</section>
+
+
+{% endblock %}

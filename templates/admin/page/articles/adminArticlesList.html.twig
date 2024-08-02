@@ -1,0 +1,50 @@
+{% extends 'admin/base.html.twig' %}
+
+
+{% block metatitle %} List articles
+{% endblock %}
+
+{% block main %}
+
+    <section id="sectionAdminArticlesList">
+
+        <table class="adminArticleTable">
+            <tr>
+                <td>Id</td>
+                <td>Titre</td>
+                <td>Image</td>
+                <td>Date</td>
+                <td>Est publié ?</td>
+                <td>Voir</td>
+                <td>Supprimer</td>
+
+            </tr>
+
+        {% for article in articles %}
+
+            <tr>
+                    <td> {{ article.id }} </td>
+                    <td> {{ article.title }} </td>
+                    <td> <div class="imgAdminTableArticle"> <img src="{{ article.image }}" alt="illustration de : {{ article.title }}"> </div> </td>
+                    <td> {{ article.createdAt | date('d.m.Y') }} </td>
+                    <td>
+                        {% if article.isPublished %}
+                                <p> publié </p>
+                            {% else %}
+                                <p> Non publié </p>
+                        {% endif %}
+                    </td>
+                    <td> <a href="{{ path('admin_article_show', {id: article.id}) }}"> Voir l'article </a> </td>
+                    <td> <a href="{{ path('admin_article_delete', {id: article.id}) }}"> Supprimer l'article </a> </td>
+
+            </tr>
+
+
+        {% endfor %}
+
+        </table>
+
+    </section>
+
+
+{% endblock %}

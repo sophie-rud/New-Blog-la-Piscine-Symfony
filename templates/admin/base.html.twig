@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block metatitle %}{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {% block stylesheets %}
+        {% endblock %}
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+        <link rel="stylesheet" href="{{asset('css/adminStyle.css') }}"/>
+
+    </head>
+    <body>
+
+        <header>
+            <nav>
+                <ul>
+                    <li> <a href="">Articles</a> </li>
+                    <li> <a href="">Test</a> </li>
+                    <li>
+                        <div class="logoHeader"> <a href=""> <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Blason_ville_fr_Bordeaux.png" alt="Blason de Bordeaux"> </a> </div>
+                    </li>
+                    <li> <a href="">Test</a> </li>
+                    <li> <a href="">Test</a> </li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+
+            {#
+            vérifie si des messages flashes ont été enregistrés
+            par un controleur. Si oui, on les affiche
+            #}
+            {% for message in app.flashes('success') %}
+                <div class="success-message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+
+            {% block main %}{% endblock %}
+        </main>
+
+
+        <footer>
+            <p> © La Piscine 2024 </p>
+
+            <div class="logoFooter">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Blason_ville_fr_Bordeaux.png" alt="Blason de Bordeaux">
+                {# <img src="{{ asset('img/autocollant-carapuce-pokemon-007.png') }}" alt="logo"> #}
+            </div>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,20 @@
+{% extends 'public/base.html.twig' %}
+
+{% block metatitle %} List Categories
+{% endblock %}
+
+{% block main %}
+
+    {% for category in categories %}
+
+        <article class="categoriesList" style="background-color: {{ category.color }}">
+
+            <h2> {{ category.title }} </h2>
+
+            <a href="{{ path('category_show', {id: category.id}) }}"> Voir cette catégorie </a>
+
+        </article>
+
+    {% endfor %}
+
+{% endblock %}

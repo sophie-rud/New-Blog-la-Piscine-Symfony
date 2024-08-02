@@ -1,0 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Acme", sans-serif;
+}
+
+img {
+    width: 100%;
+}
+
+body {
+    min-height: 100vh;
+}
+
+/* ------------------- HEADER ------------------- */
+header {
+    background-color: #3e51b0;
+}
+
+.logoHeader {
+    width: 9%;
+}
+
+
+
+/* ------ LIST - UL - LI ------ */
+
+nav {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+li {
+    text-decoration: none;
+    padding: 5px 20px;
+    /* color: blanchedalmond; */
+}
+
+a {
+    text-decoration: none;
+    /* color: rgb(40, 70, 236); */
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+
+/* ------------------- MAIN ------------------- */
+
+
+main {
+    min-height: 65vh;
+}
+
+
+/* ------------------- articlesList ------------------- */
+
+.imgArticle {
+    width: 60%;
+    margin: auto;
+}
+#sectionArticlesList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.articlesList {
+    width: 40%;
+    padding: 3% 2%;
+    margin: 3% 0;
+    background-color: gainsboro;
+    text-align: center;
+
+}
+
+
+.adminArticleTable  {
+    border: #5B21B6 1px solid;
+    text-align: center;
+
+    td {
+        border: #5B21B6 1px solid;
+
+    }
+}
+
+.imgAdminTableArticle {
+    width: 40%;
+    margin: auto;
+}
+
+/* ------------------- Message : article bien supprimé ------------------- */
+
+.success-message {
+    text-align: center;
+    background-color: #5B21B6;
+    color: yellow;
+    font-size: 60px;
+}
+
+/* ------------------- FOOTER ------------------- */
+
+
+footer {
+    background-color: #3E51B0FF;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.logoFooter {
+    width: 3%;
+    padding: 8px 12px;
+}

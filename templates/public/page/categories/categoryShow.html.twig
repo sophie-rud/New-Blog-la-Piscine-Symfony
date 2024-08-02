@@ -1,0 +1,24 @@
+{% extends 'public/base.html.twig' %}
+
+{% block metatitle %} Show category
+{% endblock %}
+
+
+{% block main %}
+
+    {% for article in category.articles %}
+
+        <article>
+
+            <h2> {{ article.title }} </h2>
+            <p> {{ article.description }} </p>
+            <div class="imgArticle"> <img src="{{ article.image }}" alt="illustration de : {{ article.title }}"> </div>
+
+            <a href="{{ path('article_show', {id: article.id}) }}"> Voir l'article </a>
+
+        </article>
+
+
+    {% endfor %}
+
+{% endblock %}
