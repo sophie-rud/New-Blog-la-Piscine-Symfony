@@ -8,9 +8,12 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 
+use App\Entity\Article;
+use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,7 +24,7 @@ class AdminArticleController extends AbstractController {
     #[Route('/admin/articles', name: 'admin_articles_list')]
     public function adminListArticle(ArticleRepository $articleRepository):Response {
 
-        // Dans $articles, on stocke le résultat de la méthod appelée, qui fait un select sur $articleRepository. Ici findAll(), donc tous les articles.
+        // Dans $articles, on stocke le résultat de la méthode appelée, qui fait un select sur $articleRepository. Ici findAll(), donc tous les articles.
         $articles = $articleRepository->findAll();
 
         // On retourne une réponse http en html
@@ -78,6 +81,7 @@ class AdminArticleController extends AbstractController {
             // ce message sera affiché grâce à twig sur la prochaine page
             $this->addFlash('success', 'L\'article a bien été supprimé !');
 
+
             // Si l'exécution du try a échoué, catch est exécuté et on renvoie une réponse http avec un message d'erreur
         } catch(\Exception $exception){
             return $this->renderView('admin/page/error.html.twig', [
@@ -88,6 +92,79 @@ class AdminArticleController extends AbstractController {
 
         // On fait une redirection sur la page admin d'affichage des articles
         return $this->redirectToRoute('admin_articles_list');
+    }
+
+
+
+    // Annotation qui permet de créer une route dès que la fonction insertArticle est appelée
+    #[Route('admin/articles/insert', name: 'admin_article_insert')]
+   public function insertArticle(Request $request, EntityManagerInterface $entityManager) {
+
+        // On crée une nouvelle instance de la classe Article (de l'entité)
+        $article = new Article();
+
+        // on génère une instance de la classe de gabarit de formulaire, et on la lie avec l'entité Article
+        // La variable $articleCreateForm contient donc l'instance de formulaire liée à l'entité choisie
+        $articleCreateForm = $this->createForm(ArticleType::class, $article);
+
+        // On lie le formulaire à la requête
+        // Gère la récupération des données et les stocke dans l'entité
+        $articleCreateForm->handleRequest($request);
+
+        // Si le formulaire est soumis (posté) et complété avec des données valides (qui respectent les contraintes de champs)
+        if ($articleCreateForm->isSubmitted() && $articleCreateForm->isValid()) {
+            // On prépare la requête sql,
+            $entityManager->persist($article);
+            // puis on l'exécute.
+            $entityManager->flush();
+
+            // On affiche un message pour informer l'utilisateur du succès de la requête
+            $this->addFlash('success', 'Article enregistré !');
+
+            // On fait une redirection sur la page du formulaire d'insertion
+            return $this->redirectToRoute('admin_article_insert');
+
+        }
+
+        // Avec la méthode createView(), on génère une instance de 'vue' du formulaire, pour le render
+       $articleCreateFormView = $articleCreateForm->createView();
+
+        // On retourne une réponse http (le fichier html du formulaire)
+        return $this->render('admin/page/articles/insertArticle.html.twig', [
+           'articleForm' => $articleCreateFormView
+        ]);
+
+    }
+
+
+    #[Route('admin/articles/update/{id}', name: 'admin_article_update')]
+    public function updateArticle(int $id, Request $request, ArticleRepository $articleRepository, EntityManagerInterface $entityManager): Response {
+
+        // on effectue un select par id sur les données récupérées de la table Article, on stocke le résultat de notre sélection dans $article.
+        $article = $articleRepository->find($id);
+
+        // on génère une instance de la classe de gabarit de formulaire, et on la lie avec l'entité Article
+        $articleCreateForm = $this->createForm(ArticleType::class, $article);
+
+        // On lie le formulaire à la requête
+        $articleCreateForm->handleRequest($request);
+
+        // Si le formulaire est soumis (posté) et complété avec des données valides (qui respectent les contraintes de champs)
+        // On prépare la requête sql, puis on l'exécute.
+        if ($articleCreateForm->isSubmitted() && $articleCreateForm->isValid()) {
+            $entityManager->persist($article);
+            $entityManager->flush();
+
+            // On affiche un message pour informer l'utilisateur du succès de la requête
+            $this->addFlash('success', 'Article modifié');
+        }
+
+        // On génère une instance de 'vue' du formulaire, pour le render,
+        $articleCreateFormView = $articleCreateForm->createView();
+        // et on retourne une réponse http
+        return $this->render('admin/page/articles/updateArticle.html.twig', [
+            'articleForm' => $articleCreateFormView
+        ]);
     }
 
 }

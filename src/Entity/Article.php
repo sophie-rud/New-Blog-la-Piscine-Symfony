@@ -41,17 +41,19 @@ class Article
     private ?Category $category = null;
 
 
-    /**
+    /*
      * @var Collection<int, Article>
      */
 
 
-    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'category')]
-    private Collection $articles;
+   /* #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'category')]
+    private Collection $articles; */
 
     public function __construct()
     {
-        $this->articles = new ArrayCollection();
+        /* $this->articles = new ArrayCollection(); */
+        $this->createdAt = new \DateTime('NOW');
+        $this->updatedAt = new \DateTime('NOW');
     }
 
 
@@ -132,19 +134,19 @@ class Article
         return $this;
     }
 
-    public function isPublished(): ?bool
+    public function getIsPublished(): ?bool
     {
         return $this->isPublished;
     }
 
-    public function setPublished(bool $is_published): static
+    public function setIsPublished(bool $isPublished): static
     {
-        $this->isPublished = $is_published;
+        $this->isPublished = $isPublished;
 
         return $this;
     }
 
-    /**
+    /*
      * @return Collection<int, Article>
      */
     public function getCategory(): ?Category

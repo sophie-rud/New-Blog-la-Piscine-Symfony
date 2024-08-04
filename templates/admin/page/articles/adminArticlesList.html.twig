@@ -8,6 +8,8 @@
 
     <section id="sectionAdminArticlesList">
 
+        <li> <a href="{{ path('admin_article_insert') }}">Ajouter un article</a> </li>
+
         <table class="adminArticleTable">
             <tr>
                 <td>Id</td>
@@ -15,8 +17,9 @@
                 <td>Image</td>
                 <td>Date</td>
                 <td>Est publié ?</td>
-                <td>Voir</td>
+                <td>Modifier</td>
                 <td>Supprimer</td>
+                <td>Voir</td>
 
             </tr>
 
@@ -34,8 +37,9 @@
                                 <p> Non publié </p>
                         {% endif %}
                     </td>
-                    <td> <a href="{{ path('admin_article_show', {id: article.id}) }}"> Voir l'article </a> </td>
+                    <td> <a href="{{ path('admin_article_update', {id: article.id}) }}"> Modifier l'article </a> </td>
                     <td> <a href="{{ path('admin_article_delete', {id: article.id}) }}"> Supprimer l'article </a> </td>
+                    <td> <a href="{{ path('admin_article_show', {id: article.id}) }}"> Voir l'article </a> </td>
 
             </tr>
 
