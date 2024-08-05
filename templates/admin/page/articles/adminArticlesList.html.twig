@@ -16,6 +16,7 @@
                 <td>Titre</td>
                 <td>Image</td>
                 <td>Date</td>
+                <td>Categorie</td>
                 <td>Est publié ?</td>
                 <td>Modifier</td>
                 <td>Supprimer</td>
@@ -30,6 +31,9 @@
                     <td> {{ article.title }} </td>
                     <td> <div class="imgAdminTableArticle"> <img src="{{ article.image }}" alt="illustration de : {{ article.title }}"> </div> </td>
                     <td> {{ article.createdAt | date('d.m.Y') }} </td>
+                    <td style="background-color:#{{ article.category ? article.category.color : "ffffff" }}"> {{ article.category ? article.category.title : "sans catégorie" }}</td>
+                    {# OU <td>{{ article.category.title|default('sans catégorie') }}</td> #}
+
                     <td>
                         {% if article.isPublished %}
                                 <p> publié </p>

@@ -9,9 +9,6 @@
         <meta name="viewport"
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
         <link rel="stylesheet" href="{{asset('css/adminStyle.css') }}"/>
     </head>
 
@@ -21,12 +18,13 @@
             <nav>
                 <ul>
                     <li> <a href="{{ path('articles_list') }}">Voir les articles</a> </li>
-                    <li> <a href="{{ path('categories_list') }}">Catégories</a> </li>
+                    <li> <a href="{{ path('admin_categories_list') }}">Gérer les catégories</a> </li>
                     <li>
                         <div class="logoHeader"> <a href=""> <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Blason_ville_fr_Bordeaux.png" alt="Blason de Bordeaux"> </a> </div>
                     </li>
                     <li> <a href="{{ path('admin_articles_list') }}">Gérer les articles</a> </li>
                     <li> <a href="{{ path('admin_article_insert') }}">Ajouter un article</a> </li>
+                    <li><a href="{{ path('app_logout') }}"> Se déconnecter </a></li>
                 </ul>
             </nav>
         </header>
@@ -34,6 +32,7 @@
         <main>
 
             {# vérifie si des messages flashes ont été enregistrés par un controleur. Si oui, on les affiche #}
+
 
             {% for message in app.flashes('success') %}
                 <div class="success-message">

@@ -37,7 +37,14 @@ class Article
     #[ORM\Column]
     private ?bool $isPublished = null;
 
+    // inversedBy = quelle est la propriété dans categorie qui renvoie vers la table Article
     #[ORM\ManyToOne(inversedBy: 'articles')]
+    // #[ORM\JoinColumn(onDelete: 'CASCADE')]
+        // permet de supprimer "en cascade" les articles liés à une catégorie quand la catégorie supprimée
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+        // permet de supprimer une catégorie sans supprimer les articles qui lui sont liés.
+        // On supprime la valeur de category_id dans les articles liés à la catégorie. Ils deviennent alors sans catégorie
+        // -> il ne faut pas oublier de définir le champ catégorie nullable dans la table des articles !!
     private ?Category $category = null;
 
 

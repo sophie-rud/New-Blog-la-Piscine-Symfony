@@ -1,0 +1,39 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block metatitle %} List categories
+{% endblock %}
+
+{% block main %}
+<section id="sectionAdminCategoriesList">
+
+    <a href="{{ path('admin_category_insert') }}">Ajouter une catégorie</a>
+
+    <table class="adminCategoryTable">
+        <tr>
+            <td>Id</td>
+            <td>Titre</td>
+            <td>Couleur</td>
+            <td>Créée le : </td>
+            <td>Modifier</td>
+            <td>Supprimer</td>
+        </tr>
+
+        {% for category in categories %}
+
+            <tr>
+                <td> {{ category.id }} </td>
+                <td> {{ category.title }} </td>
+                <td style="background-color:#{{ category.color }}"> {{ category.color }} </td>
+                <td> {{ category.createdAt | date('d.m.Y') }} </td>
+
+                <td> <a href="{{ path('admin_category_update', {id: category.id}) }}"> Modifier la catégorie </a> </td>
+                <td> <a href="{{ path('admin_category_delete', {id: category.id}) }}"> Supprimer la catégorie </a> </td>
+
+            </tr>
+
+        {% endfor %}
+
+    </table>
+</section>
+
+{% endblock %}

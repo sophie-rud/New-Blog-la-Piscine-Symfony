@@ -122,6 +122,7 @@ class AdminArticleController extends AbstractController {
             $this->addFlash('success', 'Article enregistré !');
 
             // On fait une redirection sur la page du formulaire d'insertion
+            // plus logique de retomber sur la liste des articles ou page de mise à jour des articles
             return $this->redirectToRoute('admin_article_insert');
 
         }
@@ -152,11 +153,13 @@ class AdminArticleController extends AbstractController {
         // Si le formulaire est soumis (posté) et complété avec des données valides (qui respectent les contraintes de champs)
         // On prépare la requête sql, puis on l'exécute.
         if ($articleCreateForm->isSubmitted() && $articleCreateForm->isValid()) {
+
             $entityManager->persist($article);
             $entityManager->flush();
 
             // On affiche un message pour informer l'utilisateur du succès de la requête
-            $this->addFlash('success', 'Article modifié');
+            $this->addFlash('success', 'Article enregistré !');
+
         }
 
         // On génère une instance de 'vue' du formulaire, pour le render,
@@ -168,3 +171,5 @@ class AdminArticleController extends AbstractController {
     }
 
 }
+
+
