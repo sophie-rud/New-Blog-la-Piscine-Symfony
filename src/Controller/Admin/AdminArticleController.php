@@ -13,9 +13,12 @@ use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 class AdminArticleController extends AbstractController {
@@ -57,7 +60,6 @@ class AdminArticleController extends AbstractController {
 
 
     #[Route('/admin/articles/delete/{id}', name: 'admin_article_delete')]
-
     // On passe en paramètres de la fonction la classe ArticleRepository (car on va effectuer un select) et EntityManagerInterface (c)ar on va faire une modification des données (avec un delete) en bdd).
     public function adminDeleteArticle(int $id, ArticleRepository $articleRepository, EntityManagerInterface $entityManager): Response {
 
@@ -98,7 +100,7 @@ class AdminArticleController extends AbstractController {
 
     // Annotation qui permet de créer une route dès que la fonction insertArticle est appelée
     #[Route('admin/articles/insert', name: 'admin_article_insert')]
-   public function insertArticle(Request $request, EntityManagerInterface $entityManager) {
+   public function insertArticle(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, ParameterBagInterface $params) {
 
         // On crée une nouvelle instance de la classe Article (de l'entité)
         $article = new Article();
@@ -113,6 +115,33 @@ class AdminArticleController extends AbstractController {
 
         // Si le formulaire est soumis (posté) et complété avec des données valides (qui respectent les contraintes de champs)
         if ($articleCreateForm->isSubmitted() && $articleCreateForm->isValid()) {
+
+            // On récupère le fichier depuis le formulaire
+            $imageFile = $articleCreateForm->get('image')->getData();
+
+            // Si un fichier est bien soumis
+            if ($imageFile) {
+                // On récupère le nom du fichier
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // On "nettoie" le nom du fichier avec $slugger->slug() (retire les caractères spéciaux...)
+                $safeFilename = $slugger->slug($originalFilename);
+                // On ajoute un identifiant unique au nom
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+
+                try {
+                    // On récupère le chemin de la racine du projet
+                    $rootPath = $params->get('kernel.project_dir');
+                    // On déplace le fichier dans le dossier indiqué dans le chemin d'accès. On renomme
+                    $imageFile->move($rootPath . '/public/uploads', $newFilename);
+                } catch (FileException $e) {
+                    dd($e->getMessage());
+                }
+
+                // On stocke le nom du fichier dans la propriété image de l'entité article
+                $article->setImage($newFilename);
+            }
+
+
             // On prépare la requête sql,
             $entityManager->persist($article);
             // puis on l'exécute.
@@ -153,7 +182,7 @@ class AdminArticleController extends AbstractController {
         // Si le formulaire est soumis (posté) et complété avec des données valides (qui respectent les contraintes de champs)
         // On prépare la requête sql, puis on l'exécute.
         if ($articleCreateForm->isSubmitted() && $articleCreateForm->isValid()) {
-
+            // $this->setUpdatedAt(new \DateTime('NOW'));
             $entityManager->persist($article);
             $entityManager->flush();
 

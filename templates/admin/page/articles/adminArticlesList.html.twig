@@ -29,7 +29,10 @@
             <tr>
                     <td> {{ article.id }} </td>
                     <td> {{ article.title }} </td>
-                    <td> <div class="imgAdminTableArticle"> <img src="{{ article.image }}" alt="illustration de : {{ article.title }}"> </div> </td>
+                        {# Intégrer les images avec un url #}
+                    {# <td> <div class="imgAdminTableArticle"> <img src="{{ article.image }}" alt="illustration de : {{ article.title }}"> </div> </td> #}
+                        {# Intégrer les images du dossier uploads #}
+                    <div class="imgAdminTableArticle"> <img src="{{ asset('uploads/'~article.image) }}" alt="illustration de : {{ article.title }}"> </div> </td>
                     <td> {{ article.createdAt | date('d.m.Y') }} </td>
                     <td style="background-color:#{{ article.category ? article.category.color : "ffffff" }}"> {{ article.category ? article.category.title : "sans catégorie" }}</td>
                     {# OU <td>{{ article.category.title|default('sans catégorie') }}</td> #}
@@ -42,17 +45,20 @@
                         {% endif %}
                     </td>
                     <td> <a href="{{ path('admin_article_update', {id: article.id}) }}"> Modifier l'article </a> </td>
-                    <td> <a href="{{ path('admin_article_delete', {id: article.id}) }}"> Supprimer l'article </a> </td>
+                    <td> <p class="js-admin-article-delete">Supprimer</p>
+                        <div class="js-popup-article-delete">
+                            <p>Voulez-vous vraiment supprimer l'article</p>
+                            <a href="{{ path('admin_article_delete', {id: article.id}) }}"> Supprimer l'article </a>
+                        </div>
+                    </td>
                     <td> <a href="{{ path('admin_article_show', {id: article.id}) }}"> Voir l'article </a> </td>
 
             </tr>
-
 
         {% endfor %}
 
         </table>
 
     </section>
-
 
 {% endblock %}

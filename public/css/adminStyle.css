@@ -109,6 +109,26 @@ main {
     font-size: 60px;
 }
 
+
+
+
+/* ------------------- POPUP ------------------- */
+
+
+.js-popup-article-delete {
+    display: none;
+   /* position: absolute; */
+    position: fixed;
+    background-color: white;
+    top: 150px;
+    right: 400px;
+    padding: 100px;
+
+}
+
+
+
+
 /* ------------------- FOOTER ------------------- */
 
 

@@ -1,0 +1,29 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block metatitle %} Insert user
+{% endblock %}
+
+
+{% block main %}
+
+    <h1>Créer un admin</h1>
+
+    <form method="post">
+
+        <div>
+            <label for="">Email
+                <input type="email" name="email" />
+            </label>
+        </div>
+
+        <div>
+            <label for="">Mot de passe
+                <input type="password" name="password" />
+            </label>
+        </div>
+
+        <input type="submit" value="Créer">
+
+    </form>
+
+{% endblock %}

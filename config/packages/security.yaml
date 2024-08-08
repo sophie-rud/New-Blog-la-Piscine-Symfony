@@ -24,6 +24,14 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
+                target: home
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 604800 Durée de vie en secondes (ici, 7 jours)
+                path: /
+                # Si vous utilisez secure: true, assurez-vous que l'application fonctionne sur HTTPS
+                secure: true
+                httponly: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
